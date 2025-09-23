@@ -1,0 +1,24 @@
+{
+  "name": "cs-312-miniproject-2",
+  "version": "1.0.0",
+  "description": "Mini Project 2",
+  "homepage": "https://github.com/bradytwiz/CS-312-MiniProject-2#readme",
+  "bugs": {
+    "url": "https://github.com/bradytwiz/CS-312-MiniProject-2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bradytwiz/CS-312-MiniProject-2.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
