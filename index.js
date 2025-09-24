@@ -33,20 +33,22 @@ app.get("/check", async (req, res) => {
     console.log(myPokemon);
     try {
         const pokemonData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}/`);
+        console.log(pokemonData);
 
         if(!pokemonData) {
             console.log(`${myPokemon} does not exist`);
-            return res.send(`${myPokemon} does not exist. Maybe soon though!`);
+            res.render("index.ejs", {noData: myPokemon});
+            return;
         }
 
         const megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon-form/${myPokemon}-mega/`);
 
         if (megaData) {
             console.log(`${myPokemon} has a mega!`);
-            res.send(megaData)
+            res.render("index.ejs", {mega: megaData});
         } else {
             console.log(`${myPokemon} exists but mega does not`);
-            res.send(pokemonData);
+            res.render("index.ejs", {pokemon: pokemonData});
         }
 
         // if(myPokemon === 'charizard' || myPokemon === 'mewtwo' || myPokemon === 'raichu')

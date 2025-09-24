@@ -4,10 +4,17 @@
         Can It Mega Evolve?
     </div>
     <form action="/check" method="GET">
-        <label for="pokemon">Pokemon:</label>
+        <label for="pokemon">Pokemon (Name/Dex#):</label>
         <input type="text" id="pokemon" name="pokemon" required>
         <input type="submit" value="Submit">
     </form>
+    <% if(locals.noData) { %>
+        <p><%= noData %> is not a pokemon! Try again</p>
+    <% } else if (locals.pokemon) { %>
+        <p><%= pokemon.name %> does not have a mega. </p>
+    <% } else if (locals.mega) { %>
+        <p><%= mega.name %> is a mega! </p>
+    <% } %>
 </main>
 <script>
     // any client side script
