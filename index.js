@@ -9,6 +9,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
+// two speicific special cases, that must be hard coded in because they require a different api call
+const xyForms = ["charizard", "mewtwo"]
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -40,8 +43,21 @@ app.get("/check", async (req, res) => {
             res.render("index.ejs", {noData: myPokemon});
             return;
         }
+        let megaData = null;
 
-        const megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon-form/${myPokemon}-mega/`);
+        if(xyForms.includes(myPokemon))
+        {   
+            // if they have two forms randomly send one of them back
+            if (Math.floor(Math.random() * 2) + 1 == 1) {
+                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega-x/`);
+            } else {
+                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega-y/`);
+            }
+        } else {
+            megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega/`);
+        }
+        
+
 
         if (megaData) {
             console.log(`${myPokemon} has a mega!`);
@@ -50,14 +66,6 @@ app.get("/check", async (req, res) => {
             console.log(`${myPokemon} exists but mega does not`);
             res.render("index.ejs", {pokemon: pokemonData});
         }
-
-        // if(myPokemon === 'charizard' || myPokemon === 'mewtwo' || myPokemon === 'raichu')
-        // {   
-        //     // This needs seperate work since they have 2 diff versions, but this is the api call for it
-        //     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${myPokemon}-mega-y/`);
-        // } else {
-        //     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-form/${myPokemon}-mega/`);
-        // }
         
         
     } catch (error) {

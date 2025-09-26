@@ -12,8 +12,10 @@
         <p><%= noData %> is not a pokemon! Try again</p>
     <% } else if (locals.pokemon) { %>
         <p><%= pokemon.name %> does not have a mega. </p>
+        <img src="<%=pokemon.sprites.other["official-artwork"]["front_default"]  %>">
     <% } else if (locals.mega) { %>
         <p><%= mega.name %> is a mega! </p>
+        <img src="<%=mega.sprites.other["official-artwork"]["front_default"]  %>">
     <% } %>
 </main>
 <script>
