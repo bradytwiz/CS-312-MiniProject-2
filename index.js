@@ -21,6 +21,8 @@ app.get("/", (req, res) => {
     res.render("index.ejs")
 });
 
+
+// this function is a general api GET call, because I need to know if data exists at the endpoints
 async function dataExists(url) {
     try {
         const response = await axios.get(url)
@@ -36,7 +38,6 @@ app.get("/check", async (req, res) => {
     console.log(myPokemon);
     try {
         const pokemonData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}/`);
-        console.log(pokemonData);
 
         if(!pokemonData) {
             console.log(`${myPokemon} does not exist`);
@@ -45,6 +46,8 @@ app.get("/check", async (req, res) => {
         }
         let megaData = null;
 
+
+        // checking if the input falls under a special case or not, which requires a seperate call
         if(xyForms.includes(myPokemon))
         {   
             // if they have two forms randomly send one of them back
@@ -67,10 +70,11 @@ app.get("/check", async (req, res) => {
             res.render("index.ejs", {pokemon: pokemonData});
         }
         
-        
+    // this in theory never should never happen, even if the api gets changed or turned off. 
+    // Because getting a data not found is the "does not exist" stupid proofing part.
     } catch (error) {
         console.error("Failed to make request:", error.message);
-        res.send();
+        res.send(error);
     }
 });
 
