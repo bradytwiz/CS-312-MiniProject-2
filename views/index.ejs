@@ -8,14 +8,14 @@
         <input type="text" id="pokemon" name="pokemon" required>
         <input type="submit" value="Submit">
     </form>
-
+    <!-- displays different information based on what data was passed-->
     <% if(locals.noData) { %>
         <p class="error"><%= noData %> is not a pokemon! Try again</p>
     <% } else if (locals.pokemon) { %>
         <p class="no-mega"><%= pokemon.name %> does not have a mega.</p>
         <img src="<%=pokemon.sprites.other["official-artwork"]["front_default"]  %>">
     <% } else if (locals.mega) { %>
-        <p class="has-mega"><%= mega.name %> is a mega!</p>
+        <p class="has-mega"><%= mega.name.replace(/-mega.*/i, "") %> has a mega!</p>
         <img src="<%=mega.sprites.other["official-artwork"]["front_default"]  %>">
     <% } %>
 </main>

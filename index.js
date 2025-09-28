@@ -12,6 +12,7 @@ const port = 3000;
 // two speicific special cases, that must be hard coded in because they require a different api call
 const xyForms = ["charizard", "mewtwo"]
 
+// general setup stuffs
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,7 +33,7 @@ async function dataExists(url) {
     }
 }
 
-
+// user submits
 app.get("/check", async (req, res) => {
     const myPokemon = req.query.pokemon.toLowerCase();
     console.log(myPokemon);
@@ -47,17 +48,19 @@ app.get("/check", async (req, res) => {
         let megaData = null;
 
 
+        // API calls require pokemonData.name instead of myPokemon, in the case they insert the dex number instead of the name
+
         // checking if the input falls under a special case or not, which requires a seperate call
         if(xyForms.includes(myPokemon))
         {   
             // if they have two forms randomly send one of them back
             if (Math.floor(Math.random() * 2) + 1 == 1) {
-                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega-x/`);
+                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${pokemonData.name}-mega-x/`);
             } else {
-                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega-y/`);
+                megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${pokemonData.name}-mega-y/`);
             }
         } else {
-            megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${myPokemon}-mega/`);
+            megaData = await dataExists(`https://pokeapi.co/api/v2/pokemon/${pokemonData.name}-mega/`);
         }
         
 
